@@ -9,7 +9,27 @@ type Post = {
   body: string;
 };
 
-export function Demo() {
+/*
+This is "manual" or "naive" way to fetch data. Not recommended to do things
+this way in a project today. But, it's important to know these pieces of
+functionality to understand what is happening in more modern approaches.
+
+Drawbacks to naive approach:
+1. You have to write everything yourself. Managing state variables, getting
+   useEffect dependencies right, etc. Easy to miss things and have bugs.
+2. There is no caching. If we go from page 1 to page 2 and back to page 1, we'll
+   hit the backend again, even though we recently fetched page 1. Implementing
+   cache manually would be challenging.
+3. Even if we implement caching, and we show results from the cache, ideally we
+   would also want background refetching to refresh the data in case there are
+   new results on the server.
+
+Exception: if you are new to React, and/or you've never done data fetching
+before, then learn this manual approach! It's good for learning. Then, later,
+you would move on to something better.
+*/
+
+export function DemoManual() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -53,7 +73,8 @@ export function Demo() {
 
   return (
     <>
-      <h1>Fetching Data in React (with Abort Controller)</h1>
+      <h1>Fetching Data in React (Manual)</h1>
+      <h2> (includes Abort Controller!)</h2>
       <button onClick={() => setPage(page + 1)}>Fetch Next Page</button>
       <p>Current page: {page}</p>
       {isLoading && <div>Loading...</div>}
